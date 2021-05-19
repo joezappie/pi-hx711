@@ -1,11 +1,18 @@
 {
   "name": "pi-hx711",
   "version": "1.0.0",
-  "description": "Module for interfacing with an HX711 on a Raspberry PI. ",
+  "description": "Module for interfacing with an HX711 on a Raspberry PI.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "keywords": [
+    "hx711",
+    "raspberrypi",
+    "rpi",
+    "gpio",
+    "loadcell"
+  ],
   "author": "Joe Jankowiak",
   "license": "ISC"
 }
