@@ -70,14 +70,20 @@ class HX711 {
   }
 
   get scale() {
+    if(typeof this.options.scale === 'function') {
+      return this.options.scale();
+    }
     return this.options.scale;
   }
 
-  set offset(offset) {
+  set offset(offset) { 
     this.options.offset = offset;
   }
 
   get offset() {
+    if(typeof this.options.offset === 'function') {
+      return this.options.offset();
+    }
     return this.options.offset;
   }
 
