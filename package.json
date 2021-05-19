@@ -1,0 +1,11 @@
+{
+  "name": "pi-hx711",
+  "version": "1.0.0",
+  "description": "Module for interfacing with an HX711 on a Raspberry PI. ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Joe Jankowiak",
+  "license": "ISC"
+}
