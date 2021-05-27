@@ -5,11 +5,15 @@ class HX711 {
     this.options = {
       scale: 1,
       offset: 0,
+      continous: false,
       ...options,
     }
 
     this.dataPin = new Gpio(dataPin, {mode: Gpio.INPUT});
-    this.clockPin = new Gpio(clockPin, {mode: Gpio.OUTPUT, pullUpDown: Gpio.PUD_DOWN,});
+    this.clockPin = new Gpio(clockPin, {mode: Gpio.OUTPUT, pullUpDown: Gpio.PUD_DOWN});
+
+    // Start loop if desired
+    this.continous = this.options.continous;
   }
 
   async readRaw(times = 1) {
@@ -22,7 +26,13 @@ class HX711 {
       this.clockPin.digitalWrite(0);
 
       // Wait until Data Line goes LOW
-      while(this.dataPin.digitalRead());
+      await new Promise((resolve, reject) => {
+        setImmediate(() => {
+          if(this.dataPin.digitalRead() === 0) {
+            resolve();
+          }
+        })
+      });
 
       const buff = [];
 
@@ -45,6 +55,8 @@ class HX711 {
       sum += value;
     }
 
+    this.lastRead = sum / times;
+
     return sum / times;
   }
 
@@ -56,6 +68,23 @@ class HX711 {
 
   async read(times = 1) {
     let value = await this.readRaw(times);
+    value -= this.offset;
+    value *= this.scale;
+    return value;
+  }
+
+  getLastRaw() {
+    return this.lastRead;
+  }
+
+  getLastOffset() {
+    let value = this.lastRead;
+    value -= this.offset;
+    return value;
+  }
+
+  getLast() {
+    let value = this.lastRead;
     value -= this.offset;
     value *= this.scale;
     return value;
@@ -85,6 +114,21 @@ class HX711 {
       return this.options.offset();
     }
     return this.options.offset;
+  }
+
+  set continous(delay) {
+    this.options.continous = delay;
+    clearInterval(this.loop);
+
+    if(this.options.continous && Number.isNaN(this.options.continous) === false) {
+      // Get immediate first reading
+      this.readRaw();
+
+      // Setup loop at desired rate
+      this.loop = setInterval(() => {
+        this.readRaw();
+      }, this.options.continous);
+    }
   }
 
   clock() {
