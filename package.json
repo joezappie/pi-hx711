@@ -2,9 +2,9 @@
   "name": "pi-hx711",
   "version": "1.1.1",
   "description": "Module for interfacing with an HX711 on a Raspberry PI.",
-  "main": "index.js",
+  "main": "hx711.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node test.js"
   },
   "keywords": [
     "hx711",
@@ -17,5 +17,9 @@
   "license": "ISC",
   "dependencies": {
     "pigpio": "^3.3.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jrj2211/pi-hx711"
   }
 }

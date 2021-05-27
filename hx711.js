@@ -9,7 +9,7 @@ class HX711 {
     }
 
     this.dataPin = new Gpio(dataPin, {mode: Gpio.INPUT});
-    this.clockPin = new Gpio(clockPin, {mode: Gpio.OUTPUT});
+    this.clockPin = new Gpio(clockPin, {mode: Gpio.OUTPUT, pullUpDown: Gpio.PUD_DOWN,});
   }
 
   async readRaw(times = 1) {
@@ -76,7 +76,7 @@ class HX711 {
     return this.options.scale;
   }
 
-  set offset(offset) { 
+  set offset(offset) {
     this.options.offset = offset;
   }
 
